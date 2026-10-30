@@ -28,6 +28,12 @@ const mongoClient = await connectToMongoDB();
 const db = mongoClient.db("studio-space");
 const studioCollection = db.collection("studios");
 
+app.post("/add-studio", async (req, res) => {
+    const studioData = req.body;
+    const result = await studioCollection.insertOne(studioData);
+    res.send(result);
+});
+
 app.get("/studios", async (req, res) => {
     const result = await studioCollection.find().toArray();
     res.send(result);
