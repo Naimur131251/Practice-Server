@@ -24,8 +24,14 @@ export async function connectToMongoDB() {
   }
 }
 
-await connectToMongoDB();
+const mongoClient = await connectToMongoDB();
+const db = mongoClient.db("studio-space");
+const studioCollection = db.collection("studios");
 
+app.get("/studios", async (req, res) => {
+    const result = await studioCollection.find().toArray();
+    res.send(result);
+});
 
 app.get("/", (req, res) => {
   res.send({
